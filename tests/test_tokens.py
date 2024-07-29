@@ -384,6 +384,11 @@ class TestToken(TestCase):
 
         self.assertEqual(token[api_settings.USER_ID_CLAIM], user_id)
 
+    def test_for_user_disabled(self):
+        self.user.is_active = False
+        with self.assertRaises(TokenError):
+            MyToken.for_user(self.user)
+
     @override_api_settings(USER_ID_FIELD="username")
     def test_for_user_with_username(self):
         # Test with non-int user id

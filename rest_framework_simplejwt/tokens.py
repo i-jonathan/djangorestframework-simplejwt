@@ -206,6 +206,9 @@ class Token:
         if not isinstance(user_id, int):
             user_id = str(user_id)
 
+        if not api_settings.USER_AUTHENTICATION_RULE(user):
+            raise TokenError(format_lazy(_("Cannot create Token for inactive user")))
+
         token = cls()
         token[api_settings.USER_ID_CLAIM] = user_id
 
